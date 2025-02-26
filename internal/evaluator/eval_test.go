@@ -20,7 +20,8 @@ func TestEvaluatorInt(t *testing.T) {
 	l := lexer.New(input.input)
 	p := parser.New(l)
 	program := p.ParseProgram()
-	obj := Eval(program)
+	env := object.NewEnviroment()
+	obj := Eval(program, env)
 	i, ok := obj.(*object.Integer)
 	if !ok {
 		t.Fatalf("expected int got %T\n", obj.(*object.Integer))
@@ -41,7 +42,8 @@ func TestEvalBoolean(t *testing.T) {
 	l := lexer.New(input.input)
 	p := parser.New(l)
 	program := p.ParseProgram()
-	obj := Eval(program)
+	env := object.NewEnviroment()
+	obj := Eval(program, env)
 	b, ok := obj.(*object.Boolean)
 	if !ok {
 		t.Fatalf("expected boolean got %T", obj)
@@ -61,11 +63,12 @@ func TestBang(t *testing.T) {
 	}
 	l := lexer.New(input.input)
 	p := parser.New(l)
+	env := object.NewEnviroment()
 	program := p.ParseProgram()
 	if len(p.Errors()) != 0 {
 		t.Fatalf("errors: %s", p.Errors()[0])
 	}
-	v := Eval(program)
+	v := Eval(program, env)
 	b, ok := v.(*object.Boolean)
 	if !ok {
 		t.Fatalf("expected boolean object got %T", v.(*object.Boolean))
