@@ -30,10 +30,18 @@ let x = (2 * 2) + 3; // 7
 
 Conditional `if` expressions
 ```monkey
-lex x = 12;
+let x = 12;
 if x > 10 {
     x = x + 1;
 } else {
     x = x - 1;
 }
+
+
+
+let x = if true {
+        1
+    } else {
+        0
+    }
 ```
