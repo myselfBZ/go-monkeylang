@@ -1,35 +1,39 @@
 # An interpreter for the monkey language
 
-
-> [!IMPORTANT]
-> There are some external dependencies for testing different components
-
-For example:
-[to make the AST look pretty in a json doc](https://github.com/tidwall/pretty) 
+Based off of the Writing an Interpreter in Go book, by Thorsten Ball.
 
 
-## Structs have `json` tag, because **I** wanted to inspect tokens and nodes in a json document
+Examples:
 
 
+Variable declaration
+```monkey
+let x = 1;
+let b = true;
+let b = false;
+```
+Boolean expressions
+```monkey
+let x = 1 == 1; // true
+let x = 1 >= 2; // true
+let x = 1 <= 2; // true
+let x = 2 != 1; // false
+```
+Arithmetic expressions
+```monkey
+let x = 1 + 1; // 2
+let x = (-12) + 2; // -10
+let x = 4 * 2 + 1; // 9
+let x = 16 / 2 - 1; // 7 
+let x = (2 * 2) + 3; // 7
+```
 
-# User manual
-
-variable declaration
-`let x = 12;`
-> [!NOTE]
-> Semicolons are required at the end of lines! 
-
-if statements
-`if (expression true or false) {
-    ...
+Conditional `if` expressions
+```monkey
+lex x = 12;
+if x > 10 {
+    x = x + 1;
 } else {
-    ...
-}`
-
-sorry `else if` is not supported
-
-arithmetic expressions
-`1 + 3 * 34`
-
-floating point numbers are not supported either.
-developer is super sad about that (skill issues)
+    x = x - 1;
+}
+```
