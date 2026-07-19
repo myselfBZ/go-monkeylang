@@ -56,7 +56,8 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		left := Eval(node.Left, env)
 		return evalInfix(right, left, node.Operator)
     case *ast.IfExpression:
-        return evalIfExp(node, env)
+		newEnv := object.NewEnclosedEnvironment(env)
+        return evalIfExp(node, newEnv)
     case *ast.ReturnStatement:
         value := Eval(node.ReturnValue, env)
         if isError(value){
