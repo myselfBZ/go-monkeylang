@@ -24,30 +24,42 @@ type Object interface {
 	Inspect() string
 }
 
-func NewEnclosedEnvironment(outer *Enviroment) *Enviroment {
-	return &Enviroment{
+func NewEnclosedEnvironment(outer *Environment) *Environment {
+	return &Environment{
 		store: make(map[string]Object),
 		outer: outer,
 	}
 }
 
-func NewEnvironment() *Enviroment{
-    return &Enviroment{
+func NewEnvironment() *Environment{
+    return &Environment{
         store:make(map[string]Object),
 		outer: nil,
     }
 }
 
-type Enviroment struct{
-	outer *Enviroment
+type Environment struct{
+	outer *Environment
     store map[string]Object
 }
 
-func (e *Enviroment) Get(name string) (Object, bool) {
-    obj, ok := e.store[name]
-    return obj, ok
+func findIdent(env *Environment, name string) (Object, bool) {
+	if env == nil {
+		return nil, false
+	}
+
+	obj, ok := env.store[name]
+	if !ok {
+		return findIdent(env.outer, name)
+	}
+	return obj, true
 }
-func (e *Enviroment) Set(name string, obj Object) Object {
+
+func (e *Environment) Get(name string) (Object, bool) {
+	return findIdent(e, name)
+}
+
+func (e *Environment) Set(name string, obj Object) Object {
     e.store[name] = obj
     return obj
 }
@@ -112,7 +124,7 @@ func (e *Error) Inspect() string{
 type Function struct{
     Params []*ast.Identifier
     Body   *ast.BlockStatement
-    Env    *Enviroment
+    Env    *Environment
 }
 
 func (f *Function) Type() ObjType {

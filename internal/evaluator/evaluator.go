@@ -31,7 +31,7 @@ func isError(o object.Object) bool{
     return false
 }
 
-func Eval(node ast.Node, env *object.Enviroment) object.Object {
+func Eval(node ast.Node, env *object.Environment) object.Object {
 	switch node := node.(type) {
 	case *ast.Program:
 		return evalProgram(node, env)
@@ -76,7 +76,7 @@ func Eval(node ast.Node, env *object.Enviroment) object.Object {
         }
         return v
     // case *ast.FunctionLiteral:
-    //     funcEnv := object.NewEnviroment()
+    //     funcEnv := object.NewEnvironment()
     //
 	default:
 		return NULL
@@ -85,7 +85,7 @@ func Eval(node ast.Node, env *object.Enviroment) object.Object {
 }
 
 
-func evalIdent(node *ast.Identifier, env *object.Enviroment) object.Object{
+func evalIdent(node *ast.Identifier, env *object.Environment) object.Object{
     obj, ok := env.Get(node.Value)
     if !ok{
         return newError("identifier not found %s", node.Value)
@@ -94,7 +94,7 @@ func evalIdent(node *ast.Identifier, env *object.Enviroment) object.Object{
 }
 
 
-func evalProgram(node *ast.Program, env *object.Enviroment) object.Object {
+func evalProgram(node *ast.Program, env *object.Environment) object.Object {
     var result object.Object
     for _, v := range node.Statements{
         result = Eval(v, env)
@@ -109,7 +109,7 @@ func evalProgram(node *ast.Program, env *object.Enviroment) object.Object {
 }
 
 
-func evalBlock(node *ast.BlockStatement, env *object.Enviroment) object.Object {
+func evalBlock(node *ast.BlockStatement, env *object.Environment) object.Object {
     var result object.Object
     for _, v := range node.Statements{
         result = Eval(v, env)
@@ -123,7 +123,7 @@ func evalBlock(node *ast.BlockStatement, env *object.Enviroment) object.Object {
     return result
 }
 
-func evalPrefix(node *ast.PrefixExpression, op string, env *object.Enviroment) object.Object {
+func evalPrefix(node *ast.PrefixExpression, op string, env *object.Environment) object.Object {
 	v := Eval(node.Right, env)
     if isError(v){
         return v
@@ -218,7 +218,7 @@ func evalBoolInfix(right object.Object, left object.Object, oprtr string) object
     return newError("unknown operator for booleans %s", oprtr) 
 }
 
-func evalIfExp(node *ast.IfExpression, env *object.Enviroment) object.Object {
+func evalIfExp(node *ast.IfExpression, env *object.Environment) object.Object {
 	conditionObj := Eval(node.Condition, env)
 	condition, ok := conditionObj.(*object.Boolean)
     if !ok{
