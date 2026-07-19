@@ -25,7 +25,7 @@ func open(path string) string {
 }
 
 func main() {
-    env := object.NewEnviroment()
+    env := object.NewEnvironment()
 	src := open("test.monkey")
 	l := lexer.New(src)
     p := parser.New(l)

@@ -24,13 +24,22 @@ type Object interface {
 	Inspect() string
 }
 
-func NewEnviroment() *Enviroment{
+func NewEnclosedEnvironment(outer *Enviroment) *Enviroment {
+	return &Enviroment{
+		store: make(map[string]Object),
+		outer: outer,
+	}
+}
+
+func NewEnvironment() *Enviroment{
     return &Enviroment{
         store:make(map[string]Object),
+		outer: nil,
     }
 }
 
 type Enviroment struct{
+	outer *Enviroment
     store map[string]Object
 }
 

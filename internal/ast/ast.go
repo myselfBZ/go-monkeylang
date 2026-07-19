@@ -258,7 +258,7 @@ func (f *FunctionLiteral) TokenLiteral() string {
 }
 
 type Call struct {
-	Token     *token.Token // probably the name of the
+	Token     *token.Token
 	Function  Expression
 	Arguments []Expression
 }

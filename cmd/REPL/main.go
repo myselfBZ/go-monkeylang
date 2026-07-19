@@ -12,7 +12,7 @@ import (
 )
 
 func Start() {
-	env := object.NewEnviroment()
+	env := object.NewEnvironment()
 	l := liner.NewLiner()
 	defer l.Close()
 	l.SetCtrlCAborts(true)
