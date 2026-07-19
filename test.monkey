@@ -1,9 +1,11 @@
 let x = 12;
 let t = 2;
 let b = 4;
-if (x > t){
-    return x + t;
+let result = if (x > t){
+    let x = 3;
+    x;
 } else {
     return 0;
 }
 
+x;
