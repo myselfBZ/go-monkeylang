@@ -11,6 +11,7 @@ import (
 type ObjType string
 
 const (
+	STRING  	 = "STRING"
     FUNCTION_OBJ = "FUNCTION"
 	INTEGER_OBJ = "INTIGER_TYPE"
 	BOOLEAN_OBJ = "BOOLEAN"
@@ -150,4 +151,15 @@ func (f *BuiltIn) Type() ObjType {
 }
 func (f *BuiltIn) Inspect() string{
 	return "built-in function"
+}
+
+
+type String struct {
+	Value string
+}
+func (s *String) Type() ObjType {
+	return STRING
+}
+func (s *String) Inspect() string{
+	return "string literal"
 }

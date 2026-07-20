@@ -281,3 +281,16 @@ func (c *Call) String() string {
 	out.WriteString(")")
 	return out.String()
 }
+
+type String struct {
+	Token *token.Token
+	Value string
+}
+
+func (s *String) expressionNode() {}  
+func (s *String) TokenLiteral() string {
+	return s.Value
+}
+func (s *String) String() string {
+	return "\"" + s.Value + "\""
+}

@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"bytes"
 	"log"
 	"unicode"
 
@@ -80,10 +81,23 @@ func (l *Lexer) readDigit() string {
 	return number
 }
 
+func (l *Lexer) readString() string {
+	buff := bytes.NewBuffer([]byte{})
+	for l.ch != '"' {
+		buff.WriteString(string(l.ch))
+		l.readChar()
+	}
+	return buff.String()
+}
+
 func (l *Lexer) NextToken() *token.Token {
 	l.skipWhiteSpace()
 	var t token.Token
 	switch l.ch {
+	case '"':
+		l.readChar()
+		strContent := l.readString()
+		t = token.NewToken(token.STRING, strContent)
 	case '=':
 		if l.peek() == '=' {
 			l.readChar()

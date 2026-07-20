@@ -25,6 +25,8 @@ func PutsBuiltin(objs ...object.Object) object.Object {
 			fmt.Print(t.Value)
 		case *object.Null:
 			fmt.Print("NULL")
+		case *object.String:
+			fmt.Print(t.Value)
 		default:
 			return newError("non-printable object: %s", obj.Type())
 		}

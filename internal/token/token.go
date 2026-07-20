@@ -51,4 +51,5 @@ const (
 	GTOREQ         = ">="
 	LTOREQ         = "<="
 	BANG           = "!"
+	STRING		   = "STRING"
 )

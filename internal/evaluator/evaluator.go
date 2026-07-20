@@ -80,6 +80,8 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		params := node.Params
 		body := node.Body
 		return &object.Function{Params: params, Body: body, Env: env}
+	case *ast.String:
+		return &object.String{Value: node.Value}
 	case *ast.Call:
 		f := Eval(node.Function, env)
 		if isError(f) {
