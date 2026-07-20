@@ -71,11 +71,11 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 		env.Set(node.Name.Value, v)
 	case *ast.Identifier:
-		v, ok := env.Get(node.Value)
-		if !ok {
-			return newError("identifier not found %s", node.Value)
+		obj := evalIdent(node, env)
+		if isError(obj) {
+			return obj
 		}
-		return v
+		return obj
 	case *ast.FunctionLiteral:
 		params := node.Params
 		body := node.Body
@@ -91,23 +91,24 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 		return applyFunction(f, args)
 
-	default:
-		return NULL
 	}
-	return nil
+	return NULL
 }
 
 func applyFunction(f object.Object, args []object.Object) object.Object {
-	function, ok := f.(*object.Function)
-	if !ok {
+	switch function := f.(type) {
+	case *object.Function:
+		if len(function.Params) != len(args) {
+			return newError("function call missing arguments")
+		}
+		extendedEnv := extendFunctionEnv(function, args)
+		evaluated := Eval(function.Body, extendedEnv)
+		return unwrapReturnVal(evaluated)
+	case *object.BuiltIn:
+		return function.Fn(args...)
+	default:
 		return newError("not a function: %s", f.Type())
 	}
-	if len(function.Params) != len(args) {
-		return newError("function call missing arguments")
-	}
-	extendedEnv := extendFunctionEnv(function, args)
-	evaluated := Eval(function.Body, extendedEnv)
-	return unwrapReturnVal(evaluated)
 }
 
 func unwrapReturnVal(v object.Object) object.Object {
@@ -138,6 +139,10 @@ func evalExpressions(env *object.Environment, exprs []ast.Expression) []object.O
 }
 
 func evalIdent(node *ast.Identifier, env *object.Environment) object.Object {
+	if f, ok := builtIns[node.Value]; ok {
+		return f
+	}
+
 	obj, ok := env.Get(node.Value)
 	if !ok {
 		return newError("identifier not found %s", node.Value)

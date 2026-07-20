@@ -17,6 +17,7 @@ const (
 	NULL        = "NULL"
     RETURN_VALUE = "RETURN_VALUE"
     ERROR_OBJ = "ERROR"
+	BUILTIN = "BUILT_IN_FUNC"
 )
 
 type Object interface {
@@ -33,7 +34,8 @@ func NewEnclosedEnvironment(outer *Environment) *Environment {
 
 func NewEnvironment() *Environment{
     return &Environment{
-        store:make(map[string]Object),
+        store:map[string]Object{
+		},
 		outer: nil,
     }
 }
@@ -137,4 +139,15 @@ func (f *Function) Inspect() string{
     return out.String()
 }
 
+type BuiltIn struct {
+	Fn BuiltInFunc
+}
+type BuiltInFunc func(...Object) Object
 
+
+func (f *BuiltIn) Type() ObjType {
+	return BUILTIN
+}
+func (f *BuiltIn) Inspect() string{
+	return "built-in function"
+}
