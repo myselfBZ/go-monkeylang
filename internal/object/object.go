@@ -43,20 +43,12 @@ type Environment struct{
     store map[string]Object
 }
 
-func findIdent(env *Environment, name string) (Object, bool) {
-	if env == nil {
-		return nil, false
-	}
-
-	obj, ok := env.store[name]
-	if !ok {
-		return findIdent(env.outer, name)
-	}
-	return obj, true
-}
-
 func (e *Environment) Get(name string) (Object, bool) {
-	return findIdent(e, name)
+	obj, ok := e.store[name]
+	if !ok && e.outer != nil {
+		obj, ok = e.outer.Get(name)
+	}
+	return obj, ok
 }
 
 func (e *Environment) Set(name string, obj Object) Object {

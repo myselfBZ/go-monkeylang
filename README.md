@@ -37,11 +37,21 @@ if x > 10 {
     x = x - 1;
 }
 
-
-
 let x = if true {
         1
     } else {
         0
     }
+```
+
+Functions
+```monkey
+let adder = fn (x) {
+    return fn (y) {
+        return x + y
+    }
+}
+
+let addOne = adder(1);
+addOne(6);
 ```

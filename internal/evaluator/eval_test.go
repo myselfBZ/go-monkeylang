@@ -77,3 +77,42 @@ func TestBang(t *testing.T) {
 		t.Fatalf("expected %v got %v", input.expct, b.Value)
 	}
 }
+
+func testEval(input string) object.Object {
+	l := lexer.New(input)
+	p := parser.New(l)
+	program := p.ParseProgram()
+	env := object.NewEnvironment()
+	return Eval(program, env)
+}
+
+func testIntegerObject(t *testing.T, obj object.Object, expected int) bool {
+	result, ok := obj.(*object.Integer)
+	if !ok {
+		t.Errorf("object is not Integer. got=%T (%+v)", obj, obj)
+		return false
+	}
+	if result.Value != expected {
+		t.Errorf("object has wrong value. got=%d, want=%d",
+		result.Value, expected)
+		return false
+	}
+	return true
+}
+
+func TestFunctionApplication(t *testing.T) {
+	tests := []struct {
+		input string
+		expected int
+	}{
+		{"let identity = fn(x) { x; }; identity(5);", 5},
+		{"let identity = fn(x) { return x; }; identity(5);", 5},
+		{"let double = fn(x) { x * 2; }; double(5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
+		{"fn(x) { x; }(5)", 5},
+	}
+	for _, tt := range tests {
+		testIntegerObject(t, testEval(tt.input), tt.expected)
+	}
+}
