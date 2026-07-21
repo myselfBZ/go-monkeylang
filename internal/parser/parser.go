@@ -192,7 +192,7 @@ func (p *Parser) parsePrefixOps() ast.Expression {
 
 	p.nextToken()
 
-	node.Right = p.parseExpression(LOWEST)
+	node.Right = p.parseExpression(PREFIX)
 
 	return node
 }
