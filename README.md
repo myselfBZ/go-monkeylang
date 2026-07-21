@@ -22,7 +22,7 @@ let x = 2 != 1; // false
 Arithmetic expressions
 ```monkey
 let x = 1 + 1; // 2
-let x = (-12) + 2; // -10
+let x = -12 + 2; // -10
 let x = 4 * 2 + 1; // 9
 let x = 16 / 2 - 1; // 7 
 let x = (2 * 2) + 3; // 7
