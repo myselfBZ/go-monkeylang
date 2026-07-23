@@ -17,7 +17,8 @@ Boolean expressions
 let x = 1 == 1; // true
 let x = 1 >= 2; // true
 let x = 1 <= 2; // true
-let x = 2 != 1; // false
+let x = 2 == 1; // false
+let x = 2000 != 2000 // false
 ```
 Arithmetic expressions
 ```monkey

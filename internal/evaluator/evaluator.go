@@ -267,7 +267,7 @@ func compareBool(right object.Object, left object.Object, oprtr string) object.O
 
 func evalBoolInfix(right object.Object, left object.Object, oprtr string) object.Object {
 	if right.Type() != left.Type() {
-		return newError("unknown operation with umatched types")
+		return newError("unknown operation with unmatched types")
 	}
 	if right.Type() == object.BOOLEAN_OBJ {
 		return compareBool(right, left, oprtr)
