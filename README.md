@@ -5,6 +5,11 @@ Based off of the Writing an Interpreter in Go book, by Thorsten Ball.
 
 Examples:
 
+## Hellow, World
+```monkey
+puts("Hello, world");
+```
+
 
 Variable declaration
 ```monkey
