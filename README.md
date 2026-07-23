@@ -5,7 +5,7 @@ Based off of the Writing an Interpreter in Go book, by Thorsten Ball.
 
 Examples:
 
-## Hellow, World
+## Hello, World
 ```monkey
 puts("Hello, world");
 ```
