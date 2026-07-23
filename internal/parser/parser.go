@@ -227,7 +227,7 @@ func (p *Parser) parseBoolean() ast.Expression {
 func (p *Parser) parseIfExpression() ast.Expression {
 	node := &ast.IfExpression{Token: p.curToken}
 	if !p.expectPeekToken(token.LPAREN) {
-		p.errors = append(p.errors, fmt.Sprintf("expected ) got %s", p.peekToken.Literal))
+		p.errors = append(p.errors, fmt.Sprintf("expected ( got %s", p.peekToken.Literal))
 		return nil
 	}
 	p.nextToken()
