@@ -304,7 +304,7 @@ func (p *Parser) parseCall(f ast.Expression) ast.Expression {
 
 func (p *Parser) parseCallArguements() []ast.Expression {
 	var arguments []ast.Expression
-	if p.peekTokenIs(token.RBRACE) {
+	if p.peekTokenIs(token.RPAREN) {
 		p.nextToken()
 		return arguments
 	}
