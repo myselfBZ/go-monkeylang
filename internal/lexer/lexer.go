@@ -37,7 +37,7 @@ func (l *Lexer) peek() byte {
 }
 
 func (l *Lexer) skipWhiteSpace() {
-	for l.ch == ' ' || l.ch == '\n' {
+	for l.ch == ' ' || l.ch == '\n' || l.ch == '\t' {
 		l.readChar()
 	}
 }
